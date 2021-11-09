@@ -1,10 +1,18 @@
 package com.teun.moviemanager.Models;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
-@Entity (name="movie")
-@Table (name="move")
-
+@Entity
+@Table (name="movie123")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,21 +25,4 @@ public class Movie {
     private String genre2;
     @Column(name = "watched", nullable = false)
     private boolean watched;
-    public Movie (Long id, String name, String genre, boolean watched){
-        this.id = id;
-        this.name = name;
-        this.genre = genre;
-        this.watched = watched;
-    }
-    //watched n/a
-    public Movie (Long id, String name, String Genre){
-        this.id = id;
-        this.name = name;
-        this.genre = genre;
-        this.watched = false;
-    }
-    //empty
-    public Movie(){
-
-    }
 }

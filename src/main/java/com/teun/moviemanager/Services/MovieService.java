@@ -3,6 +3,7 @@ package com.teun.moviemanager.Services;
 import com.teun.moviemanager.Models.Movie;
 import com.teun.moviemanager.Repositories.IMovieRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -10,22 +11,21 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class MovieService {
+    @Autowired
+    private IMovieRepository repository;
 
-    private final IMovieRepository repository;
+    public Movie GetMovie(Long Id){
 
-    public Movie GetMovie(long Id){
-        return repository.getById(Id);
+        return repository.findById(Id).orElse(null);
 
     }
     public List<Movie> GetAllMovies(){
         return repository.findAll();
 
     }
-    public int CreateMovie(Movie movie){
-        repository.save(movie);
-        return 0;
+    public Movie CreateMovie(Movie movie){
+        return repository.save(movie);
     }
     public void DeleteMovie(Long Id){
         repository.deleteById(Id);

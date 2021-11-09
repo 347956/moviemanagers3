@@ -2,6 +2,7 @@ package com.teun.moviemanager.Controller;
 import com.teun.moviemanager.Models.Movie;
 import com.teun.moviemanager.Services.MovieService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,15 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/movies")
-@RequiredArgsConstructor
 public class MovieController {
-    private final MovieService service;
+    @Autowired
+    private MovieService service;
 
-    @GetMapping("{id}")
-    @ResponseBody
+    @GetMapping("/id/{id}")
     public ResponseEntity<Movie> getMoviePath(@PathVariable(value = "id") Long id){
         Movie movie = service.GetMovie(id);
         if(movie != null){
@@ -41,20 +41,27 @@ public class MovieController {
         }
     }
 
-    @PostMapping()
-    public ResponseEntity<Movie> CreateMovie(@RequestBody Movie movie){
-        int newMovieId = 0;
-        service.CreateMovie(movie);
-        if(newMovieId != 0){
-            String url = "Movie" + "/";
-            URI uri = URI.create(url);
-            return new ResponseEntity(uri, HttpStatus.CREATED);
-        }
-        else{
-            String entity = "A movie with the same name: already Exist";
-            return new ResponseEntity(entity, HttpStatus.CONFLICT);
-        }
+    @PostMapping("/save")
+    public Movie addNewsItem(@RequestBody Movie movie){
+        return service.CreateMovie(movie);
     }
+
+
+
+//    @PostMapping()
+//    public ResponseEntity<Movie> CreateMovie(@RequestBody Movie movie){
+//        int newMovieId = 0;
+//        service.CreateMovie(movie);
+//        if(newMovieId != 0){
+//            String url = "Movie" + "/";
+//            URI uri = URI.create(url);
+//            return new ResponseEntity(uri, HttpStatus.CREATED);
+//        }
+//        else{
+//            String entity = "A movie with the same name: already Exist";
+//            return new ResponseEntity(entity, HttpStatus.CONFLICT);
+//        }
+//    }
 
     @DeleteMapping("{id}")
     public ResponseEntity deleteMovie(@PathVariable Long id){
