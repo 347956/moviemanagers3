@@ -32,8 +32,14 @@ public class MovieService {
     public void DeleteMovie(Long Id){
         repository.deleteById(Id);
     }
+
     public boolean UpdateMovie(Movie movie){
-        repository.save(movie);
-        return false;
+        if(repository.save(movie) != null)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
