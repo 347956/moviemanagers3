@@ -15,16 +15,16 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = true)
     private String email;
     @Column(name = "rank", nullable = true)
     private int rank;
-    @Column(name = "watched", nullable = false)
-    private boolean watched;
+    @Column(name = "password", nullable = true)
+    private String password;
 
     //method for updating the user
     public void Update(User user){

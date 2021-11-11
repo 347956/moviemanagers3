@@ -4,6 +4,7 @@ package com.teun.moviemanager.Services;
 import com.teun.moviemanager.Models.User;
 import com.teun.moviemanager.Repositories.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.List;
 public class UserService {
     @Autowired
     IUserRepository repository;
+    @Autowired
+    BCryptPasswordEncoder encoder;
 
     public List<User> GetAllUsers(){
 
@@ -23,7 +26,7 @@ public class UserService {
         return repository.findById(Id).orElse(null);
     }
     public User CreateUser(User user){
-
+        user.setPassword(encoder.encode(user.getPassword()));
         return repository.save(user);
     }
     public void DeleteUser(Long Id){
