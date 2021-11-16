@@ -2,6 +2,7 @@ package com.teun.moviemanager.Services;
 
 import com.teun.moviemanager.Models.Movie;
 import com.teun.moviemanager.Repositories.IMovieRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MovieService {
 
-    private final IMovieRepository repository;
+    @Autowired
+    private IMovieRepository repository;
 
     public Movie GetMovie(Long Id){
 
