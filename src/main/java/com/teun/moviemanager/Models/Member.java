@@ -8,21 +8,21 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table (name="movie")
 @Getter
 @Setter
+@Table(name="member")
 @NoArgsConstructor
-public class Movie {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name", nullable = false)
+    @Column(name="name", nullable = false)
     private String name;
-    @Column(name = "genre", nullable = false)
-    private String genre;
-    @Column(name = "genre2", nullable = true)
-    private String genre2;
-    @Column(name = "watched", nullable = false)
-    private boolean watched;
+    @Column(name="email", nullable = true)
+    private String email;
+    @Column(name="rank", nullable = true)
+    private int rank;
+    @Column(name="password", nullable = false)
+    private String password;
 }
