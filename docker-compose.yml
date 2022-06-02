@@ -1,0 +1,26 @@
+version: "3"
+services:
+  database:
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 00000000
+      MYSQL_DATABASE: moviemanagerdb
+
+  backend:
+    image: "teunbuis/docker101tutorial:moviemanagerbackend"
+    container_name: "movieManagerBackEnd"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+
+  frontend:
+    image: "teunbuis/docker101tutorial:FrontEnd"
+    container_name: "movieManagerFrontEnd"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend

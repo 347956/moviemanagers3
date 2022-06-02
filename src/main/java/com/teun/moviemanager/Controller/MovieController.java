@@ -1,16 +1,14 @@
 package com.teun.moviemanager.Controller;
+import com.teun.moviemanager.DTO.MovieDTO;
 import com.teun.moviemanager.Models.Movie;
 import com.teun.moviemanager.Services.MovieService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
-    @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/movies")
 public class MovieController {
@@ -18,21 +16,18 @@ public class MovieController {
     private MovieService service;
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<Movie> getMoviePath(@PathVariable(value = "id") Long id){
-        Movie movie = service.GetMovie(id);
-        if(movie != null){
+    public ResponseEntity<MovieDTO> getMoviePath(@PathVariable(value = "id") Long id){
+        try{
+            MovieDTO movie = service.GetMovie(id);
             return ResponseEntity.ok().body(movie);
         }
-        else{
+        catch(Exception e){
             return ResponseEntity.notFound().build();
         }
     }
-    //get a list of all movies
-
-    @GetMapping
-    public ResponseEntity<List<Movie>> getAllMovies(){
-        List<Movie> movies = null;
-        movies = service.GetAllMovies();
+    @GetMapping("/filter/{genre}")
+    public ResponseEntity<List<MovieDTO>> filterMoviesByGenre(@PathVariable(value = "genre") String genre){
+        List<MovieDTO> movies = service.getAllMoviesByGenres(genre);
         if(movies != null){
             return ResponseEntity.ok().body(movies);
         }
@@ -40,49 +35,51 @@ public class MovieController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    @GetMapping("/search/{term}")
+    public ResponseEntity <List<MovieDTO>> searchMovie(@PathVariable (value = "term")String term){
+        List<MovieDTO> movies = service.searchMovies(term);
+        if(movies != null){
+            return ResponseEntity.ok().body(movies);
+        }
+        else{
+            return ResponseEntity.notFound().build();
+        }
+    }
+    //get a list of all movies
+    @GetMapping
+    public ResponseEntity<List<MovieDTO>> getAllMovies(){
+        List<MovieDTO> movies = service.GetAllMovies();
+        if(movies != null){
+            return ResponseEntity.ok().body(movies);
+        }
+        else{
+            return ResponseEntity.notFound().build();
+        }
+    }
     @PostMapping("/save")
-    public Movie addNewsItem(@RequestBody Movie movie){
+    public MovieDTO addNewsItem(@RequestBody MovieDTO movie){
         return service.CreateMovie(movie);
     }
 
 
-
-//    @PostMapping()
-//    public ResponseEntity<Movie> CreateMovie(@RequestBody Movie movie){
-//        int newMovieId = 0;
-//        service.CreateMovie(movie);
-//        if(newMovieId != 0){
-//            String url = "Movie" + "/";
-//            URI uri = URI.create(url);
-//            return new ResponseEntity(uri, HttpStatus.CREATED);
-//        }
-//        else{
-//            String entity = "A movie with the same name: already Exist";
-//            return new ResponseEntity(entity, HttpStatus.CONFLICT);
-//        }
-//    }
-
     @DeleteMapping("/id/{id}")
     public ResponseEntity deleteMovie(@PathVariable Long id){
-        service.DeleteMovie(id);
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping()
-    public ResponseEntity<Movie> UpdateMovie(@RequestBody Movie movie){
-        if(service.UpdateMovie(movie)){
-            return ResponseEntity.noContent().build();
+        boolean deleted = service.DeleteMovie(id);
+        if(deleted == true){
+            return ResponseEntity.ok().body(deleted);
         }
         else{
-            return new ResponseEntity("Please provide a valid Movie Id.", HttpStatus.NOT_FOUND);
+            return ResponseEntity.notFound().build();
         }
     }
-
-    @PutMapping("{id}")
-    public ResponseEntity<Movie> updateMovie(@PathVariable("id") Long id){
-        Movie movie = service.GetMovie(id);
-        service.UpdateMovie(movie);
-        return ResponseEntity.ok().build();
+    @PutMapping()
+    public ResponseEntity<MovieDTO> UpdateMovie(@RequestBody MovieDTO movie){
+        MovieDTO updatedMovie = service.UpdateMovie(movie);
+        if(updatedMovie.getName().equals(movie.getName())){
+            return ResponseEntity.ok().body(updatedMovie);
+        }
+        else{
+            return new ResponseEntity("Something went wrong. Make sure the movie already exists before updating", HttpStatus.NOT_FOUND);
+        }
     }
 }

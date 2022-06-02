@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="@studmysql01.fhict.local" uuid="7ec822be-17af-4b7c-a7f3-3ae0d0cbc52f">
+    <data-source source="LOCAL" name="dbi347956@studmysql01.fhict.local [2]" uuid="6c18bb32-a242-4b86-a213-aee86ae3031d">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://studmysql01.fhict.local:3306/</jdbc-url>
+      <jdbc-url>jdbc:mysql://studmysql01.fhict.local:3306/dbi347956</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="Remote" uuid="289eed45-b819-47f3-baf5-be9aaf10437a">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://remotemysql.com:3306/jkwbteh0vb</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="moviemanagerdb@localhost" uuid="7d294967-1b1c-46cd-883b-c89f8451171f">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/moviemanagerdb</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
